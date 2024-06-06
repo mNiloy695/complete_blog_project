@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load  crispy_forms_tags %}
+{% block content %}
+{% if messages %}
+{% for m in messages  %}
+<p class='text-primary'>{{m}}</p>
+{% endfor %}
+{% endif %}
+<h1>Add Category</h1>
+<form class='text-dark' style='width:50%; margin:auto;' action="" method='post'>
+{% csrf_token %}
+<!--{{form | crispy}}-->
+{% if form.non_field_errors %}
+ {% for er in form.non_field_errors  %}
+ <p class="text-white bg-danger mb-2 p-2">{{er}}</p>
+ {% endfor %}
+{% endif %} 
+{% for fm in form  %}
+{{fm.label_tag}}
+{{ fm}}
+{{fm.errors | striptags}}
+{% endfor %}
+<button class='btn mt-2 btn-warning'>Submit</button>
+</form>
+{% endblock content %}

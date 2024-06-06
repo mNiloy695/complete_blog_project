@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+ 
+ {% if not user.is_authenticated  %}
+ <div class='row d-flex  justify-content-between flex-wrap align-items-center ms-2 p-5 gap-2'>
+
+  <div class='col-lg-5'>
+   <h1>Welcome to BDN</h1>
+   <p>
+    "Welcome to BDN - your ultimate destination for [topic/interest] enthusiasts! Dive into a world where words weave stories, ideas spark discussions, and passions find their voice. Whether you're here to seek inspiration, gain knowledge, or simply indulge in some leisurely reading, you've come to the right place. Join our vibrant community of like-minded individuals and embark on a journey of exploration and discovery. Let the adventure begin!"
+   </p>
+  </div>
+  <div class='col-lg-6 align-items-center' >
+      <img  style='width:100%' src="{% static 'yes.jpg'%}" alt="">
+  </div>
+</div>
+ {% endif %}
+
+  <h1 class='text-dark text-center m-4'>READ & WRITE BLOG'S</h1>
+  {% if  user.is_authenticated %}
+  <h4 class='text-dark text-center'>{{ posts | length}} Result's Found</h4>
+  {% endif %}
+<div class='row  ms-2'>
+   <div class='container-fluid col-lg-2 col-sm-12 col-md-12 bg-secondary mt-3'> 
+    <h3 class='text-center text-dark'>  All <small>Categorys</small> </h3>
+    {% for cat in  category %}
+   <div class="form-check text-white m-3">
+      <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{cat.id}}">
+      <a href="{% url 'category_wise_slug' cat.slug%}">  <label class="form-check-label  text-dark" for="flexRadioDefault1">
+      {{cat.name}}
+    </label>
+  </a>
+  </div>
+   {% endfor %}
+   </div>
+  <div class='col-lg-10 col-sm-12 col-md-12 row  mt-3'>
+    {% for post in posts %}
+      <div class="card col-sm-3 mx-auto mb-3" style="width: 20rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+          <p class="card-text">{{post.content}}</p>
+          <h4 class="card-text">Author: {{post.author.first_name}} {{post.author.last_name}}</h4>
+          <p class="card-text">
+            {% for cat in  post.category.all %}
+              <button class='btn-sm btn-success ' disabled>{{cat}}</button>  
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

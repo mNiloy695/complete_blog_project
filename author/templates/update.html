@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
+
+<form class='text-dark' style="width: 50%; margin: auto" action="" method='post'>
+    <div class="box">
+        <a class="btn btn-primary m-2" type="button" href="{% url 'change_old'%}"
+          >Change Password</a
+        >
+        <a class="btn btn-primary m-2" type="button" href="{% url 'change2'%}"
+          >Change Password Without Old Password</a
+        >
+      </div>
+      <h1> Update Your Profile</h1>
+      {% csrf_token %}
+      <!-- {{form | crispy}} -->
+      {% if form.non_field_errors %} 
+      {% for er in form.non_field_errors %}
+      <p class="text-white bg-danger mb-2 p-2">{{er}}</p>
+      {% endfor %}
+      {% endif %} 
+      {% for fm in form %} 
+      {{fm.label_tag}}
+     {{ fm}}
+    {{fm.errors | striptags}}
+     {% endfor %}
+      <button class="btn mt-2 btn-warning">Update Profile</button>
+    </form>
+</form>
+{% endblock content %}
